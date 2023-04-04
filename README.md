@@ -1,2 +1,2 @@
 # Proofling
-An automatic proof checker
+An automatic proof checker. In progress!
