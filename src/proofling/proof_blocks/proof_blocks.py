@@ -2,6 +2,7 @@ import typing
 import proofling.errors.errors as errors
 import string
 
+#Multi-file state class
 class ParserState:
     combined = False
     proposition_stop = False
@@ -35,6 +36,7 @@ def parse_next(line_gen):
                 return Proposition.generate(Proposition(other), line_gen)
             raise errors.LineSyntaxError(f"Expected '(' or an alphabetic symbol: '{other}'")
 
+#Basic block superclasses
 class Block:
     pass
 
@@ -46,6 +48,7 @@ class BinaryBlock(Block):
     def __repr__(self):
         return f"{self.name} ({self.p} {self.q}) at {hex(id(self))}"
 
+#Other 'nodes'
 class Combined(Block):
     def __init__(self, blocks: typing.List[Block]):
         self.blocks = blocks

@@ -1,6 +1,8 @@
+#Superclass for identification of a ProoflingError
 class ProoflingError(Exception):
     pass
 
+#Parsing errors
 class ParseError(ProoflingError, SyntaxError):
     pass
 
