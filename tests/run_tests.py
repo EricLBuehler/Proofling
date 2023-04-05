@@ -7,4 +7,4 @@ if name == "nt":
     system('cls')
 else:
     system('clear')
-subprocess.run(["python3", "-m", "pytest", "tests", "-s"])
+subprocess.run(["python3", "-m", "pytest"])

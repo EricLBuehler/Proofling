@@ -1,6 +1,6 @@
 import typing
-import errors
-import proof_blocks
+import proofling.errors.errors as errors
+import proofling.proof_blocks.proof_blocks as proof_blocks
 
 class Proofling:
     def __init__(self):

@@ -1,5 +1,5 @@
 import typing
-import errors
+import proofling.errors.errors as errors
 import string
 
 class ParserState:
