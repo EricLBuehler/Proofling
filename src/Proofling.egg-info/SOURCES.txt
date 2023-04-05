@@ -7,4 +7,5 @@ src/Proofling.egg-info/dependency_links.txt
 src/Proofling.egg-info/top_level.txt
 src/proofling/__init__.py
 src/proofling/proofling.py
+tests/test_check.py
 tests/test_import.py
