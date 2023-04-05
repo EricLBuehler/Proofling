@@ -7,11 +7,7 @@ class Proofling:
         self.names: typing.Mapping[str, str] = {}
 
     def __parse_names(self, names: typing.List[str]) -> typing.List[proof_blocks.Proposition]:
-        for name in names:
-            # Ensure proper name declaration: 
-            if name.index("=")<=0 or len(name[:name.index("=")].strip())==0:
-                raise errors.NameSyntaxError("Expected proper name declaration are bounded by { ... }")
-            
+        for name in names:            
             #Add to names and proposition collections
             self.names[name[:name.index("=")].strip()] = name[name.index("=")+1:].strip()
             proof_blocks.Proposition(name[:name.index("=")].strip())
@@ -39,7 +35,8 @@ class Proofling:
         return lines
     
     def check(self, proof: str) -> bool:
-        lines_str = list(filter(lambda s: s!="", proof.split("\n")))
+        lines_str = list(filter(lambda s: s!="", [s.strip() for s in proof.split("\n")]))
+
         if lines_str.index("{")<0 or lines_str.index("}")<0:
             raise errors.ParseError("Expected proper name declaration are bounded by { ... }")
 
@@ -50,14 +47,3 @@ class Proofling:
         print(names)
 
         return True
-    
-text = """
-{
-p = A
-q = B
-}
-
-(p > q, p) : q
-"""
-proofling = Proofling()
-proofling.check(text)
