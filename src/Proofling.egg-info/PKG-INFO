@@ -13,4 +13,4 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 
 # Proofling
-An automatic proof checker.
+An automatic proof checker. Just plug in propositions and it will check for contradictions.

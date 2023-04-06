@@ -1,7 +1,8 @@
 import subprocess
-from os import system, name
-subprocess.run(["pip", "install", "pytest"])
+from os import system, name, chdir
+chdir("../")
 subprocess.run(["pip", "install", "-e", "."])
+chdir("tests")
 print("\nPackages successfully installed!")
 if name == "nt":
     system('cls')
