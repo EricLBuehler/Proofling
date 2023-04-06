@@ -1,18 +1,17 @@
 from proofling.proofling import Proofling
-import os
 
-def test_check():
+def test_with_value():
     print()
-    with open("proof1.txt", "r") as file:
+    with open("proof_value.txt", "r") as file:
         text = file.read()
-    
-    text = """
-    {
-    p = A
-    q = B
-    }
 
-    (p > q, p) : q
-    """
     proofling = Proofling()
-    proofling.check(text)
+    assert proofling.check(text), "should be True"
+
+def test_with_no_value():
+    print()
+    with open("proof_no_value.txt", "r") as file:
+        text = file.read()
+        
+    proofling = Proofling()
+    assert proofling.check(text), "should be True"

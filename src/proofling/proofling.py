@@ -1,18 +1,19 @@
 import typing
 import proofling.errors.errors as errors
 import proofling.proof_blocks.proof_blocks as proof_blocks
-import logging
 
 class Proofling:
     def __init__(self):
         self.names: typing.Mapping[str, str] = {}
 
     def __parse_names(self, names: typing.List[str]) -> typing.List[proof_blocks.Proposition]:
-        for name in names:            
+        for name_full in names:            
             #Add to names and proposition collections
             #This allows for propositions with no values
-            self.names[name[:name.index("=")].strip()] = name[name.index("=")+1:].strip()
-            proof_blocks.Proposition(name[:name.index("=")].strip())
+            value = name_full[name_full.index("=")+1:].strip() if name_full.find("=")>=0 else None
+            name = name_full[:name_full.index("=")].strip() if name_full.find("=")>=0 else name_full
+            self.names[name] = value
+            proof_blocks.Proposition(name)
 
         return proof_blocks.Proposition.propositions
     
@@ -44,12 +45,12 @@ class Proofling:
             print(line) #DEBUG
             line_gen = self.__line_generator(line)
             lines.append(proof_blocks.parse_next(line_gen))
-
-        print(lines) #DEBUG
             
         return lines
     
     def check(self, proof: str) -> bool:
-        self.__parse_lines(proof)
+        lines = self.__parse_lines(proof)
+        
+        print(lines) #DEBUG
 
         return True
