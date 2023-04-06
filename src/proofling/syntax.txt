@@ -6,7 +6,7 @@ This is the general syntax for a Proofling file:
     name = value <value is thrown out, only for readability>
 }
 
-<line <block> <block>>
+<block 1> <block 2> ... <block n>
 
 ==================================================
 
