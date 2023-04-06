@@ -33,7 +33,7 @@ class Proofling:
         # 1st, strip whitespace from all lines. 2nd, filter out empty lines
         lines_str = list(filter(lambda s: s!="", [s.strip() for s in proof.split("\n")]))
 
-        if lines_str.index("{")<0 or lines_str.index("}")<0:
+        if lines_str.index("{")<0 or lines_str.index("}")<0: 
             raise errors.ParseError("Expected proper name declaration are bounded by { ... }")
 
         names = self.__parse_names(lines_str[lines_str.index("{")+1:lines_str.index("}")])
@@ -44,7 +44,7 @@ class Proofling:
             print(line) #DEBUG
             line_gen = self.__line_generator(line)
             lines.append(proof_blocks.parse_next(line_gen))
-            
+
         print(lines) #DEBUG
             
         return lines
