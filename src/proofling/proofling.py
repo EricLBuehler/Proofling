@@ -24,7 +24,7 @@ class Proofling:
                 continue
             yield char
         
-        #This covers the case where a propositon 'letter'
+        #This covers the case where a propositon 'letter' is the last char
         while proof_blocks.ParserState.in_proposition_stop():
             proof_blocks.ParserState.set_last_proposition(True)
             yield char
