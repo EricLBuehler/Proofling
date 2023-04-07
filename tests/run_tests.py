@@ -1,11 +1,15 @@
+#Run in this tests directory
 import subprocess
-from os import system, name, chdir
-chdir("../")
+import os
+
+os.chdir("../")
 subprocess.run(["pip", "install", "-e", "."])
-chdir("tests")
+os.chdir("tests")
 print("\nPackages successfully installed!")
-if name == "nt":
-    system('cls')
+
+if os.name == "nt":
+    os.system('cls')
 else:
-    system('clear')
+    os.system('clear')
+    
 subprocess.run(["python3", "-m", "pytest", "-s"])
