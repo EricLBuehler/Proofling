@@ -1,8 +1,8 @@
 import typing
 import proofling.errors.errors as errors
-import string
+import string        
 
-#Multi-file state class
+#Multi-file state static class
 class ParserState:
     combined = False
     proposition_stop = False
@@ -46,7 +46,7 @@ class BinaryBlock(Block):
         self.name = name
         
     def __repr__(self):
-        return f"{self.name} ({self.p} {self.q}) at {hex(id(self))}"
+        return f"{self.name}: ({self.p}, {self.q}) at {hex(id(self))}"
 
 #Other 'nodes'
 class Combined(Block):
