@@ -23,7 +23,12 @@ class PropositionLinkage:
 
 class PropositionLinkageTree:
     def __init__(self):
-        self.tree: typing.List[PropositionLinkage] = []
+        self._tree: typing.List[PropositionLinkage] = []
+
+    def get_tree(self) -> typing.List[PropositionLinkage]:
+        return self._tree
+    
+    tree = property(get_tree)
 
     @staticmethod
     def create(lines: typing.List[proof_blocks.Block]):
