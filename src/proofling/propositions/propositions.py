@@ -7,6 +7,8 @@ class LinkageType(Enum):
     IMPLIES = auto()
     COMBINED = auto()
     THEREFORE = auto()
+    CONJUNCTION = auto()
+    DISJUNCTION = auto()
 
     @staticmethod
     def create(parent: proof_blocks.Proposition):
@@ -16,6 +18,10 @@ class LinkageType(Enum):
             return LinkageType.COMBINED
         elif isinstance(parent, proof_blocks.Therefore):
             return LinkageType.THEREFORE
+        elif isinstance(parent, proof_blocks.Conjunction):
+            return LinkageType.CONJUNCTION
+        elif isinstance(parent, proof_blocks.Disjunction):
+            return LinkageType.DISJUNCTION
         raise TypeError(f"{type(parent)} is not a valid proposition to get type.")
 
 class PropositionLinkage:
