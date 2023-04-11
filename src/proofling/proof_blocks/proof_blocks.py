@@ -40,7 +40,7 @@ def parse_next(line_gen):
 #Basic block superclasses
 class Block(abc.ABC):
     @abc.abstractmethod
-    def contains(self, other, parent):
+    def contains(self, other, parents: list):
         pass
     
     @abc.abstractmethod
@@ -52,18 +52,19 @@ class BinaryBlock(Block):
         self.p, self.q = p, q
         self.name = name
 
-    def contains(self, other, _):
-        if self.p.contains(other, self)[0]:
-            return self.p.contains(other, self)
-        elif self.q.contains(other, self)[0]:
-            return self.q.contains(other, self)
+    def contains(self, other, parents):
+        parents.append(self)
+        if self.p.contains(other, parents)[0]:
+            return self.p.contains(other, parents)
+        elif self.q.contains(other, parents)[0]:
+            return self.q.contains(other, parents)
         return [False, None]
         
     def get_index(self, other):
-        if (not self.p.contains(other, self)[0]) and (not self.q.contains(other, self)[0]):
+        if (not self.p.contains(other, [self])[0]) and (not self.q.contains(other, [self])[0]):
             return None
         
-        if self.p.contains(other, self)[0]:
+        if self.p.contains(other, [self])[0]:
             return 0
         return 1
         
@@ -90,17 +91,18 @@ class Combined(Block):
             raise errors.LineSyntaxError(f"Expected ':': '{cur}'")
         return Therefore(Combined(blocks), parse_next(line_gen))
         
-    def contains(self, other, _):
-        if not any([block.contains(other, self)[0] for block in self.blocks]):
+    def contains(self, other, parents):
+        parents.append(self)
+        if not any([block.contains(other, parents)[0] for block in self.blocks]):
             return [False, None]
         
-        return self.blocks[[block.contains(other, self)[0] for block in self.blocks].index(True)].contains(other, self)
+        return self.blocks[[block.contains(other, parents)[0] for block in self.blocks].index(True)].contains(other, parents)
         
     def get_index(self, other):
-        if not any([block.contains(other)[0] for block in self.blocks]):
+        if not any([block.contains(other, [self])[0] for block in self.blocks]):
             return None
         
-        return [block.contains(other)[0] for block in self.blocks].find(True)        
+        return [block.contains(other, [self])[0] for block in self.blocks].find(True)        
         
     def __repr__(self):
         return "Combined: ("+",".join([str(block) for block in self.blocks])+")"
@@ -151,8 +153,8 @@ class Proposition(Block):
                     return self
                 raise errors.ParseSyntaxError(f"Expected '>', '&', or '|': '{other}'")
         
-    def contains(self, other, parent):
-        return [self==other, parent]
+    def contains(self, other, parents):
+        return [self==other, parents]
     
     def get_index(self, _):
         return None
