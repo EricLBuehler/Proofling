@@ -39,9 +39,9 @@ class PropositionLinkageTree:
         tree = PropositionLinkageTree()
         for proposition in proof_blocks.Proposition.propositions:
             for line in lines:
-                if  (isinstance(line, proof_blocks.BinaryBlock) and line.contains(proposition)) or \
-                    isinstance(line, proof_blocks.Combined) and line.contains(proposition):
-                    tree.append(PropositionLinkage(line, proposition, line.get_index(proposition)))
+                if  (isinstance(line, proof_blocks.BinaryBlock) and line.contains(proposition, line)[0]) or \
+                    isinstance(line, proof_blocks.Combined) and line.contains(proposition, line)[0]:
+                    tree.append(PropositionLinkage(line.contains(proposition, line)[1], proposition, line.get_index(proposition)))
 
         return tree
 
