@@ -39,11 +39,11 @@ class Proofling:
             raise errors.ParseError("Expected proper name declaration are bounded by { ... }")
 
         names = self._parse_names(lines_str[lines_str.index("{")+1:lines_str.index("}")])
-        print(names) #DEBUG
+        print("Names:",names) #DEBUG
 
         lines: typing.List[proof_blocks.Block] = []
         for line in lines_str[lines_str.index("}")+1:]:
-            print(line) #DEBUG
+            print("Raw line:",line) #DEBUG
             line_gen = self._line_generator(line)
             lines.append(proof_blocks.parse_next(line_gen))
             
@@ -52,10 +52,10 @@ class Proofling:
     def check(self, proof: str) -> bool:
         lines = self._parse_lines(proof)
         
-        print(lines) #DEBUG
+        print("Parsed lines:",lines) #DEBUG
 
         tree = propositions.PropositionLinkageTree.create(lines)
 
-        print(tree) #DEBUG
+        print("Linkage tree:",tree) #DEBUG
 
-        return True
+        return len(tree)>0
