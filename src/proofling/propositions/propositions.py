@@ -45,7 +45,7 @@ class PropositionLinkageTree:
 
     @classmethod
     def create(cls, lines: typing.List[proof_blocks.Block]):
-        tree = cls()
+        tree = cls() #Create new PropositionLinkageTree
         for proposition in proof_blocks.Proposition.propositions:
             for line in lines:
                 if  (isinstance(line, proof_blocks.BinaryBlock) and line.contains(proposition, [line])[0]) or \
