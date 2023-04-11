@@ -68,7 +68,7 @@ class BinaryBlock(Block):
         return 1
         
     def __repr__(self):
-        return f"{self.name}: ({self.p}, {self.q}) at {hex(id(self))}"
+        return f"{self.name}: ({self.p}, {self.q})"
 
 #Other 'nodes'
 class Combined(Block):
@@ -92,9 +92,9 @@ class Combined(Block):
         
     def contains(self, other, _):
         if not any([block.contains(other, self)[0] for block in self.blocks]):
-            return False
-
-        return [block.contains(other, self)[0] for block in self.blocks].find(True).contains(other)
+            return [False, None]
+        
+        return self.blocks[[block.contains(other, self)[0] for block in self.blocks].index(True)].contains(other, self)
         
     def get_index(self, other):
         if not any([block.contains(other)[0] for block in self.blocks]):
@@ -103,7 +103,7 @@ class Combined(Block):
         return [block.contains(other)[0] for block in self.blocks].find(True)        
         
     def __repr__(self):
-        return ",".join([str(block) for block in self.blocks])
+        return "Combined: ("+",".join([str(block) for block in self.blocks])+")"
 
 class Implies(BinaryBlock):
     def __init__(self, p: Block, q: Block):
@@ -158,7 +158,7 @@ class Proposition(Block):
         return None
         
     def __repr__(self):
-        return f"Proposition '{self.name}' at {hex(id(self))}"
+        return f"Proposition '{self.name}'"
 
     def __eq__(self, other):
         return self.name == other.name
