@@ -37,3 +37,6 @@ class PropositionLinkageTree:
     
     def __repr__(self):
         return str(self.tree)
+    
+    def __len__(self):
+        return len(self._tree)
