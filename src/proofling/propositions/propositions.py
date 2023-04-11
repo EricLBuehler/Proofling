@@ -1,12 +1,12 @@
-from enum import Enum
+from enum import Enum, auto
 import typing
 import proofling.proof_blocks.proof_blocks as proof_blocks    
 
 # Proposition linkers
 class LinkageType(Enum):
-    IMPLIES = 0
-    COMBINED = 1
-    THEREFORE = 2
+    IMPLIES = auto()
+    COMBINED = auto()
+    THEREFORE = auto()
 
     @staticmethod
     def create(parent: proof_blocks.Proposition):
@@ -44,7 +44,7 @@ class PropositionLinkageTree:
             for line in lines:
                 if  (isinstance(line, proof_blocks.BinaryBlock) and line.contains(proposition, [line])[0]) or \
                     isinstance(line, proof_blocks.Combined) and line.contains(proposition, [line])[0]:
-                    tree.append(PropositionLinkage(line.contains(proposition, [line])[1][2:], proposition, line.get_index(proposition)))
+                    tree.append(PropositionLinkage(line.contains(proposition, [line])[1][1:], proposition, line.get_index(proposition)))
 
         return tree
 
