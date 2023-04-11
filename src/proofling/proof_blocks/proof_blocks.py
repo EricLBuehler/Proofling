@@ -1,6 +1,7 @@
 import typing
 import proofling.errors.errors as errors
 import string        
+import abc
 
 #Multi-file state static class
 class ParserState:
@@ -37,13 +38,30 @@ def parse_next(line_gen):
             raise errors.LineSyntaxError(f"Expected '(' or an alphabetic symbol: '{other}'")
 
 #Basic block superclasses
-class Block:
-    pass
+class Block(abc.ABC):
+    @abc.abstractmethod
+    def contains(self, other):
+        pass
+    
+    @abc.abstractmethod
+    def get_index(self, other):
+        pass
 
 class BinaryBlock(Block):
     def __init__(self, p: Block, q: Block, name: str):
         self.p, self.q = p, q
         self.name = name
+
+    def contains(self, other):
+        return self.p.contains(other) or self.q.contains(other)
+        
+    def get_index(self, other):
+        if (not self.p.contains(other)) and (not self.q.contains(other)):
+            return None
+        
+        if self.p.contains(other):
+            return 0
+        return 1
         
     def __repr__(self):
         return f"{self.name}: ({self.p}, {self.q}) at {hex(id(self))}"
@@ -67,6 +85,15 @@ class Combined(Block):
         if cur != ":":
             raise errors.LineSyntaxError(f"Expected ':': '{cur}'")
         return Therefore(Combined(blocks), parse_next(line_gen))
+        
+    def contains(self, other):
+        return any([block.contains(other) for block in self.blocks])
+        
+    def get_index(self, other):
+        if not any([block.contains(other) for block in self.blocks]):
+            return None
+        
+        return [block.contains(other) for block in self.blocks].find(True)        
         
     def __repr__(self):
         return ",".join([str(block) for block in self.blocks])
@@ -116,6 +143,12 @@ class Proposition(Block):
                 if (other == "," and ParserState.in_combined()) or ParserState.in_last_proposition():
                     return self
                 raise errors.ParseSyntaxError(f"Expected '>', '&', or '|': '{other}'")
+        
+    def contains(self, other):
+        return self==other
+    
+    def get_index(self, _):
+        return None
         
     def __repr__(self):
         return f"Proposition '{self.name}' at {hex(id(self))}"
