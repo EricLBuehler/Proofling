@@ -35,8 +35,8 @@ class PropositionLinkage:
         self.index = index
 
     def __repr__(self):
-        return f"PropositionLinkage: {self.proposition} of {self.tps} \
-              at index '{self.index}'"
+        return f"PropositionLinkage: {self.proposition} of {self.tps} "+\
+              "at index '{self.index}'"
 
 
 class PropositionLinkageTree:
@@ -58,6 +58,7 @@ class PropositionLinkageTree:
                         isinstance(line, proof_blocks.Combined) and \
                         line.contains(proposition, [line])[0]:
                     tree.append(PropositionLinkage(
+                        line.contains(proposition, [line])[1][1:],
                         proposition,
                         line.get_index(proposition))
                         )
