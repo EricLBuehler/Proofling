@@ -32,7 +32,7 @@ jobs:
         python -m pip install .
     - name: Test with flake8
       run: |
-        flake8 . --ignore F401,W293,E123,E126,W504
+        flake8 .
     - name: Test with pytest
       run: |
         cd tests
