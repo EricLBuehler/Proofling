@@ -36,7 +36,7 @@ class PropositionLinkage:
 
     def __repr__(self):
         return f"PropositionLinkage: {self.proposition} of {self.tps} " +\
-              "at index '{self.index}'"
+              f"at index '{self.index}'"
 
 
 class PropositionLinkageTree:
